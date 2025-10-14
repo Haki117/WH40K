@@ -1,0 +1,262 @@
+﻿<div class="scoreboard-container">
+  <!-- Header -->
+  <header class="scoreboard-header">
+    <h1>🎮 Warhammer 40,000 Scoreboard</h1>
+    <div class="game-info">
+      <span class="game-title">{{ gameData().gameTitle }}</span>
+      <span class="game-date">{{ gameData().gameDate }}</span>
+      <span class="game-status"
+            [class]="'status-' + gameStatus()">{{ gameStatus() | titlecase }}</span>
+    </div>
+  </header>
+
+  <!-- Actions Bar -->
+  <div class="actions-bar">
+    <button class="btn btn-primary"
+            (click)="showAddPlayerForm.set(true); cancelPlayerEdit()"
+            [disabled]="showAddPlayerForm()">
+      ➕ Add Player
+    </button>
+
+    <button class="btn btn-success"
+            (click)="startGame()"
+            [disabled]="players().length < 2 || gameStatus() !== 'setup'">
+      🚀 Start Game
+    </button>
+
+    <button class="btn btn-secondary"
+            (click)="exportData()">
+      💾 Export Data
+    </button>
+
+    <label class="btn btn-secondary file-input-label">
+      📁 Import Data
+      <input type="file"
+             accept=".json"
+             (change)="onFileSelected($event)"
+             style="display: none;">
+    </label>
+
+    <button class="btn btn-danger"
+            (click)="resetGame()">
+      🗑️ Reset Game
+    </button>
+  </div>
+
+  <!-- Add Player Form -->
+  <div class="add-player-form"
+       *ngIf="showAddPlayerForm()">
+    <h3>Add New Player</h3>
+    <div class="form-row">
+      <div class="input-group">
+        <label for="playerName">Player Name:</label>
+        <input id="playerName"
+               type="text"
+               [(ngModel)]="newPlayerName"
+               placeholder="Enter player name"
+               maxlength="50">
+      </div>
+
+      <div class="input-group">
+        <label>Armies (select multiple):</label>
+        <div class="army-checkboxes">
+          <div *ngFor="let army of armies(); trackBy: trackByArmyName"
+               class="army-checkbox-item">
+            <label class="checkbox-label">
+              <input type="checkbox"
+                     [checked]="isArmySelected(army.name)"
+                     (change)="toggleArmySelection(army.name)">
+              <span class="army-checkbox-content">
+                <span class="army-icon">{{ army.icon }}</span>
+                <span class="army-details">
+                  <span class="army-name">{{ army.name }}</span>
+                  <span class="army-faction">({{ army.faction }})</span>
+                </span>
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-buttons">
+        <button class="btn btn-primary"
+                (click)="addPlayer()"
+                [disabled]="!newPlayerName().trim() || selectedArmies().length === 0">
+          Add Player
+        </button>
+        <button class="btn btn-secondary"
+                (click)="cancelAddPlayer()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Players List -->
+  <div class="players-section">
+    <h2>Participating Players ({{ players().length }})</h2>
+
+    <div *ngIf="players().length === 0"
+         class="empty-state">
+      <p>No players added yet. Click "Add Player" to get started!</p>
+    </div>
+
+    <div class="players-grid"
+         *ngIf="players().length > 0">
+      <div *ngFor="let player of players(); trackBy: trackByPlayerId"
+           class="player-card">
+
+        <div class="player-header">
+          <!-- Normal View -->
+          <div class="player-info"
+               *ngIf="!isEditingPlayer(player.id)">
+            <h3 class="player-name">{{ player.name }}</h3>
+            <div class="army-info">
+              <div class="player-armies">
+                <span *ngFor="let army of player.armies; let last = last"
+                      class="army-badge"
+                      [style.background-color]="getArmyColor(army)"
+                      [style.color]="'white'">
+                  {{ getArmyIcon(army) }} {{ army }}
+                </span>
+              </div>
+              <div class="faction-badges">
+                <span *ngFor="let army of player.armies; let last = last"
+                      class="faction-badge">
+                  {{ getArmyFaction(army) }}<span *ngIf="!last">, </span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Edit View -->
+          <div class="player-edit-form"
+               *ngIf="isEditingPlayer(player.id)">
+            <div class="edit-name-section">
+              <label for="editPlayerName">Player Name:</label>
+              <input id="editPlayerName"
+                     type="text"
+                     [(ngModel)]="editPlayerName"
+                     placeholder="Enter player name"
+                     maxlength="50">
+            </div>
+
+            <div class="edit-armies-section">
+              <label>Armies (select multiple):</label>
+              <div class="army-checkboxes edit-checkboxes">
+                <div *ngFor="let army of armies(); trackBy: trackByArmyName"
+                     class="army-checkbox-item">
+                  <label class="checkbox-label">
+                    <input type="checkbox"
+                           [checked]="isEditArmySelected(army.name)"
+                           (change)="toggleEditArmySelection(army.name)">
+                    <span class="army-checkbox-content">
+                      <span class="army-icon">{{ army.icon }}</span>
+                      <span class="army-details">
+                        <span class="army-name">{{ army.name }}</span>
+                        <span class="army-faction">({{ army.faction }})</span>
+                      </span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="player-actions">
+            <!-- Normal view buttons -->
+            <div *ngIf="!isEditingPlayer(player.id)"
+                 class="normal-actions">
+              <button class="btn btn-secondary btn-small"
+                      (click)="startEditingPlayer(player)"
+                      title="Edit Player">
+                ✏️
+              </button>
+              <button class="btn btn-danger btn-small"
+                      (click)="removePlayer(player.id)"
+                      title="Remove Player">
+                ❌
+              </button>
+            </div>
+
+            <!-- Edit view buttons -->
+            <div *ngIf="isEditingPlayer(player.id)"
+                 class="edit-actions">
+              <button class="btn btn-primary btn-small"
+                      (click)="savePlayerEdit()"
+                      [disabled]="!editPlayerName().trim() || editSelectedArmies().length === 0"
+                      title="Save Changes">
+                💾
+              </button>
+              <button class="btn btn-secondary btn-small"
+                      (click)="cancelPlayerEdit()"
+                      title="Cancel Edit">
+                ❌
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="player-stats">
+          <div class="stat-item">
+            <label>Score:</label>
+            <input type="number"
+                   [value]="player.score || 0"
+                   (change)="updatePlayerScore(player.id, +($any($event.target).value))"
+                   min="0">
+          </div>
+          <div class="stat-item">
+            <label>Victories:</label>
+            <span>{{ player.victories || 0 }}</span>
+          </div>
+          <div class="stat-item">
+            <label>Defeats:</label>
+            <span>{{ player.defeats || 0 }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Army Usage Statistics -->
+  <div class="army-stats-section"
+       *ngIf="players().length > 0">
+    <h2>Army Distribution</h2>
+    <div class="army-stats-grid">
+      <div *ngFor="let stat of getArmyUsageStats()"
+           class="army-stat-card">
+        <div class="army-stat-header">
+          <span class="army-badge large"
+                [style.background-color]="getArmyColor(stat.army)">
+            {{ getArmyIcon(stat.army) }} {{ stat.army }}
+          </span>
+          <span class="player-count">{{ stat.playerCount }} player(s)</span>
+        </div>
+        <div class="players-list">
+          <span *ngFor="let playerName of stat.players; let last = last"
+                class="player-name-tag">
+            {{ playerName }}<span *ngIf="!last">, </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Summary -->
+  <div class="game-summary"
+       *ngIf="players().length > 0">
+    <h2>Game Summary</h2>
+    <div class="summary-stats">
+      <div class="summary-item">
+        <strong>Total Players:</strong> {{ players().length }}
+      </div>
+      <div class="summary-item">
+        <strong>Armies in Play:</strong> {{ getArmyUsageStats().length }}
+      </div>
+      <div class="summary-item">
+        <strong>Total Score:</strong> {{ getTotalScore() }}
+      </div>
+    </div>
+  </div>
+</div>

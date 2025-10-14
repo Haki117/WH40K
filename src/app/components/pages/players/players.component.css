@@ -1,0 +1,518 @@
+﻿/* Players Component Styles */
+.players-tab {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tab-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.tab-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.tab-subtitle {
+  font-size: 1.125rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Controls */
+.players-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.search-section {
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgb(99 102 241 / 0.1);
+}
+
+.view-controls {
+  display: flex;
+  gap: 4px;
+  background: #f3f4f6;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.view-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.view-button:hover {
+  color: #374151;
+}
+
+.view-button.active {
+  background: #ffffff;
+  color: #111827;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+/* Header Layout */
+.players-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-left h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.header-center {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.data-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.data-controls .btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+}
+
+.data-controls .icon {
+  font-size: 1rem;
+}
+
+.view-icon {
+  font-size: 16px;
+}
+
+/* Players Grid */
+.players-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 24px;
+}
+
+.players-grid.list-view {
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.player-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.players-grid.list-view .player-card {
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+  padding: 20px 24px;
+}
+
+.player-card:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  border-color: #d1d5db;
+}
+
+/* Player Avatar */
+.player-avatar {
+  position: relative;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.players-grid.list-view .player-avatar {
+  text-align: left;
+}
+
+.avatar-placeholder {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: white;
+  font-weight: bold;
+  position: relative;
+}
+
+.players-grid.list-view .avatar-placeholder {
+  width: 60px;
+  height: 60px;
+  font-size: 1.5rem;
+}
+
+/* Player Info */
+.player-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.player-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.players-grid.list-view .player-header {
+  align-items: center;
+}
+
+.player-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.players-grid.list-view .player-name {
+  font-size: 1.125rem;
+}
+
+.rank-badge {
+  background: #f3f4f6;
+  color: #374151;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Player Stats */
+.player-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.players-grid.list-view .player-stats {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.players-grid.list-view .stat-row {
+  flex-direction: column;
+  gap: 4px;
+  min-width: 120px;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+}
+
+.players-grid.list-view .stat {
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.stat.full-width {
+  flex: 1 1 100%;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.players-grid.list-view .stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.army-badge {
+  background: #f3f4f6;
+  color: #374151;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.win-rate {
+  font-weight: 600;
+}
+
+.win-rate.high {
+  color: #059669;
+}
+
+.win-rate.medium {
+  color: #d97706;
+}
+
+.win-rate.low {
+  color: #dc2626;
+}
+
+.games-count,
+.wins-count,
+.losses-count {
+  font-weight: 600;
+  color: #374151;
+}
+
+.losses-count {
+  color: #6b7280;
+}
+
+/* Player Actions */
+.player-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.players-grid.list-view .player-actions {
+  flex-direction: column;
+  margin-top: 0;
+  min-width: 120px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.75rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.btn-small {
+  padding: 6px 12px;
+  font-size: 0.75rem;
+}
+
+.btn-primary {
+  background-color: #111827;
+  color: white;
+  border-color: #111827;
+}
+
+.btn-primary:hover {
+  background-color: #374151;
+  border-color: #374151;
+}
+
+.btn-secondary {
+  background-color: #f9fafb;
+  color: #374151;
+  border-color: #d1d5db;
+}
+
+.btn-secondary:hover {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.btn-warning {
+  background-color: #f59e0b;
+  color: white;
+  border-color: #f59e0b;
+  animation: pulse 2s infinite;
+}
+
+.btn-warning:hover {
+  background-color: #d97706;
+  border-color: #d97706;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 80px 24px;
+  color: #6b7280;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 24px;
+}
+
+.empty-state h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .players-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .players-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-section {
+    max-width: none;
+  }
+
+  .view-controls {
+    align-self: center;
+  }
+
+  .players-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .players-grid.list-view .player-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .players-grid.list-view .player-avatar {
+    text-align: center;
+  }
+
+  .players-grid.list-view .player-stats {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .players-grid.list-view .stat-row {
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  .players-grid.list-view .stat {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .players-grid.list-view .player-actions {
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 480px) {
+  .tab-title {
+    font-size: 1.5rem;
+  }
+
+  .player-card {
+    padding: 20px;
+  }
+
+  .player-actions {
+    flex-direction: column;
+  }
+}
