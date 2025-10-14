@@ -2,7 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PlayerService } from '../../../services/player.service';
-import { Player } from '../../../models/player.models';
+import { Player, WARHAMMER_ARMIES } from '../../../models/player.models';
 import { PlayerDetailModalComponent } from '../../shared/player-detail-modal/player-detail-modal.component';
 import { ArmyManagementModalComponent } from '../../shared/army-management-modal/army-management-modal.component';
 import {
@@ -97,7 +97,9 @@ import {
           <div class="player-info">
             <h3 class="player-name">{{ player.name }}</h3>
             <div class="player-armies">
-              <span class="army-tag" *ngFor="let army of player.armies">{{ army }}</span>
+              <span class="army-icon" *ngFor="let army of player.armies" [title]="army">{{
+                getArmyIcon(army)
+              }}</span>
             </div>
 
             <div class="player-stats">
@@ -142,6 +144,7 @@ import {
               <button class="btn btn-secondary btn-small" (click)="viewPlayerDetails(player)">
                 View Profile
               </button>
+              <button class="btn btn-primary btn-small" (click)="editPlayer(player)">Edit</button>
             </div>
           </div>
         </div>
@@ -281,10 +284,11 @@ export class PlayersComponent {
       this.playerService.updatePlayer(player.id, {
         name: formData.name,
         armies: formData.armies,
+        avatar: formData.avatar,
       });
     } else {
       // Creating new player
-      this.playerService.addPlayer(formData.name, formData.armies);
+      this.playerService.addPlayer(formData.name, formData.armies, formData.avatar);
     }
 
     this.closePlayerFormModal();
@@ -293,6 +297,12 @@ export class PlayersComponent {
   // Check for unsaved changes
   hasUnsavedChanges(): boolean {
     return this.playerService.hasUnsavedChanges();
+  }
+
+  // Get army icon based on army name
+  getArmyIcon(armyName: string): string {
+    const army = WARHAMMER_ARMIES.find((army) => army.name === armyName);
+    return army?.icon || '⚔';
   }
 
   // Export/Import functionality

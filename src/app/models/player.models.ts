@@ -29,8 +29,16 @@ export const WARHAMMER_ARMIES: Army[] = [
     name: 'Space Marines',
     faction: 'Imperium',
     color: '#1e40af',
-    icon: '🛡️',
+    icon: '⚔',
     description: "The Emperor's finest warriors",
+  },
+
+  {
+    name: 'Black Templars',
+    faction: 'Imperium',
+    color: '#000000ff',
+    icon: '✠',
+    description: 'Crusading Zealots',
   },
   {
     name: 'Blood Angels',
@@ -43,7 +51,7 @@ export const WARHAMMER_ARMIES: Army[] = [
     name: 'Dark Angels',
     faction: 'Imperium',
     color: '#059669',
-    icon: '⚔️',
+    icon: '⚔',
     description: 'The First Legion',
   },
   {
@@ -57,14 +65,14 @@ export const WARHAMMER_ARMIES: Army[] = [
     name: 'Imperial Guard',
     faction: 'Imperium',
     color: '#a3a3a3',
-    icon: '🎖️',
+    icon: '🎖',
     description: 'Hammer of the Emperor',
   },
   {
     name: 'Adeptus Mechanicus',
     faction: 'Imperium',
     color: '#ef4444',
-    icon: '⚙️',
+    icon: '⚙',
     description: 'Quest for Knowledge',
   },
   {
@@ -74,27 +82,34 @@ export const WARHAMMER_ARMIES: Army[] = [
     icon: '🏰',
     description: 'Noble Houses',
   },
+  {
+    name: 'Sisters of Battle',
+    faction: 'Imperium',
+    color: '#7c2d12',
+    icon: '✠',
+    description: "Adepta Sororitas - Emperor's Daughters",
+  },
 
   // Chaos
   {
     name: 'Chaos Space Marines',
     faction: 'Chaos',
     color: '#7c2d12',
-    icon: '💀',
+    icon: '☠',
     description: 'Traitor Legions',
   },
   {
     name: 'Death Guard',
     faction: 'Chaos',
     color: '#65a30d',
-    icon: '🦠',
+    icon: '☣',
     description: "Nurgle's Chosen",
   },
   {
     name: 'Thousand Sons',
     faction: 'Chaos',
     color: '#2563eb',
-    icon: '🔮',
+    icon: '◉',
     description: "Tzeentch's Sorcerers",
   },
   {
@@ -132,7 +147,7 @@ export const WARHAMMER_ARMIES: Army[] = [
     name: 'Necrons',
     faction: 'Xenos',
     color: '#374151',
-    icon: '🤖',
+    icon: '⚱',
     description: 'Ancient Machines',
   },
   {
@@ -146,7 +161,7 @@ export const WARHAMMER_ARMIES: Army[] = [
     name: 'Genestealer Cults',
     faction: 'Xenos',
     color: '#a855f7',
-    icon: '🧬',
+    icon: '⬡',
     description: 'Hidden Corruption',
   },
 
@@ -155,15 +170,8 @@ export const WARHAMMER_ARMIES: Army[] = [
     name: 'Aeldari',
     faction: 'Aeldari',
     color: '#0891b2',
-    icon: '🌟',
+    icon: '◊',
     description: 'Craftworld Eldar',
   },
-  { name: 'Drukhari', faction: 'Aeldari', color: '#1f2937', icon: '🗡️', description: 'Dark Eldar' },
-  {
-    name: 'Harlequins',
-    faction: 'Aeldari',
-    color: '#ec4899',
-    icon: '🎭',
-    description: "Cegorach's Players",
-  },
+  { name: 'Drukhari', faction: 'Aeldari', color: '#1f2937', icon: '🗡', description: 'Dark Eldar' },
 ];

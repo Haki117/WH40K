@@ -1,4 +1,13 @@
-﻿import { Component, Input, Output, EventEmitter, signal, computed, OnInit } from '@angular/core';
+﻿import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  signal,
+  computed,
+  OnInit,
+  effect,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Player, Army, WARHAMMER_ARMIES } from '../../../models/player.models';
@@ -6,6 +15,7 @@ import { Player, Army, WARHAMMER_ARMIES } from '../../../models/player.models';
 export interface PlayerFormData {
   name: string;
   armies: string[];
+  avatar?: string;
 }
 
 @Component({
@@ -41,6 +51,49 @@ export interface PlayerFormData {
               />
               <div class="error-message" *ngIf="nameError()">
                 {{ nameError() }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Player Avatar -->
+          <div class="form-section">
+            <h3>Player Image</h3>
+            <div class="avatar-section">
+              <div class="avatar-preview">
+                <div class="avatar-circle-large">
+                  <img
+                    *ngIf="formData.avatar"
+                    [src]="formData.avatar"
+                    [alt]="formData.name"
+                    class="avatar-image"
+                  />
+                  <div *ngIf="!formData.avatar" class="avatar-initials-large">
+                    {{ getAvatarInitials() }}
+                  </div>
+                </div>
+              </div>
+              <div class="avatar-controls">
+                <input
+                  type="file"
+                  #fileInput
+                  accept="image/*"
+                  (change)="onImageSelected($event)"
+                  style="display: none"
+                />
+                <button type="button" class="btn btn-secondary" (click)="fileInput.click()">
+                  Choose Image
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  (click)="removeAvatar()"
+                  *ngIf="formData.avatar"
+                >
+                  Remove Image
+                </button>
+                <div class="image-info">
+                  <small>Recommended: Square image, max 2MB</small>
+                </div>
               </div>
             </div>
           </div>
@@ -197,11 +250,15 @@ export class PlayerFormModalComponent implements OnInit {
   nameError = signal<string>('');
   armiesError = signal<string>('');
 
-  ngOnInit() {
-    this.initializeForm();
+  constructor() {
+    // Watch for changes to the player input signal
+    effect(() => {
+      const player = this.player();
+      this.initializeForm();
+    });
   }
 
-  ngOnChanges() {
+  ngOnInit() {
     this.initializeForm();
   }
 
@@ -212,12 +269,14 @@ export class PlayerFormModalComponent implements OnInit {
       this.formData = {
         name: currentPlayer.name,
         armies: [...currentPlayer.armies],
+        avatar: currentPlayer.avatar,
       };
     } else {
       // Creating new player
       this.formData = {
         name: '',
         armies: [],
+        avatar: undefined,
       };
     }
 
@@ -308,5 +367,46 @@ export class PlayerFormModalComponent implements OnInit {
 
   trackByArmy(index: number, army: Army): string {
     return army.name;
+  }
+
+  // Avatar methods
+  getAvatarInitials(): string {
+    const name = this.formData.name || 'New Player';
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  }
+
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (!file) return;
+
+    // Check file size (2MB limit)
+    if (file.size > 2 * 1024 * 1024) {
+      alert('Image size must be less than 2MB');
+      return;
+    }
+
+    // Check file type
+    if (!file.type.startsWith('image/')) {
+      alert('Please select a valid image file');
+      return;
+    }
+
+    // Read file and convert to base64
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.formData.avatar = e.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  removeAvatar(): void {
+    this.formData.avatar = undefined;
   }
 }

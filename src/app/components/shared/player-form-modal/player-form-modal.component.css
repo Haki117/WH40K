@@ -431,3 +431,69 @@
     justify-content: center;
   }
 }
+
+/* Avatar Section */
+.avatar-section {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.avatar-preview {
+  flex-shrink: 0;
+}
+
+.avatar-circle-large {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #f9fafb;
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.avatar-initials-large {
+  font-size: 32px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+.avatar-controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.avatar-controls .btn {
+  align-self: flex-start;
+  min-width: 120px;
+}
+
+.image-info {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  .avatar-section {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .avatar-controls {
+    align-items: center;
+  }
+}

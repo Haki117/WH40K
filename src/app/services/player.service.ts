@@ -115,7 +115,7 @@ Remember to export your data before closing the browser!`;
     return this.dataModified;
   }
 
-  addPlayer(name: string, armies: string[]): Player {
+  addPlayer(name: string, armies: string[], avatar?: string): Player {
     const newPlayer: Player = {
       id: `${name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
       name,
@@ -128,7 +128,7 @@ Remember to export your data before closing the browser!`;
         mostPlayedArmy: armies[0] || 'Unknown',
         rank: this.players().length + 1,
       },
-      avatar: name.charAt(0).toUpperCase(),
+      avatar: avatar || name.charAt(0).toUpperCase(),
     };
 
     const updatedPlayers = [...this.players(), newPlayer];
