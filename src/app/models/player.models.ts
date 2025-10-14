@@ -23,6 +23,50 @@ export interface Army {
   description?: string;
 }
 
+export interface Game {
+  id: string;
+  date: Date;
+  player1: GamePlayer;
+  player2: GamePlayer;
+  winner: 'player1' | 'player2' | 'draw';
+  notes?: string;
+}
+
+export interface GamePlayer {
+  playerId: string;
+  playerName: string;
+  army: string;
+  result: 'win' | 'loss' | 'draw';
+  armyList?: string; // Expandable field for army list details
+  deployment?: string;
+  twists?: string;
+  fullyPaintedPoints: number; // Always 10
+  primaryPoints: number; // 0-45
+  secondaryPoints: number; // 0-45
+  totalPoints: number; // 0-100 (calculated)
+}
+
+export interface GameFormData {
+  player1Id: string;
+  player1Army: string;
+  player1ArmyList?: string;
+  player1Deployment?: string;
+  player1Twists?: string;
+  player1FullyPaintedPoints: number;
+  player1PrimaryPoints: number;
+  player1SecondaryPoints: number;
+  player2Id: string;
+  player2Army: string;
+  player2ArmyList?: string;
+  player2Deployment?: string;
+  player2Twists?: string;
+  player2FullyPaintedPoints: number;
+  player2PrimaryPoints: number;
+  player2SecondaryPoints: number;
+  winner: 'player1' | 'player2' | 'draw';
+  notes?: string;
+}
+
 export const WARHAMMER_ARMIES: Army[] = [
   // Imperium
   {

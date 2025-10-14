@@ -200,6 +200,10 @@ Remember to export your data before closing the browser!`;
     );
   }
 
+  getPlayerById(playerId: string): Player | undefined {
+    return this.players().find((player) => player.id === playerId);
+  }
+
   exportPlayers(): string {
     return JSON.stringify(this.players(), null, 2);
   }

@@ -1,0 +1,417 @@
+﻿/* Modal Base Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.game-creation-modal {
+  background: #1a1a1a;
+  border: 2px solid #333;
+  border-radius: 12px;
+  max-width: 1200px;
+  width: 95%;
+  max-height: 95vh;
+  overflow-y: auto;
+  color: #fff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* Modal Header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #333;
+  background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  background: #333;
+  color: #fff;
+}
+
+/* Modal Body */
+.modal-body {
+  padding: 24px;
+}
+
+/* Section Styles */
+.battle-config-section,
+.players-section,
+.result-section {
+  margin-bottom: 32px;
+}
+
+.section-title {
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #333;
+}
+
+.section-title h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Battle Configuration */
+.shared-config {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Players Section */
+.players-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.player-config {
+  background: #2a2a2a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.player-header {
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #333;
+}
+
+.player-header h4 {
+  margin: 0;
+  font-size: 18px;
+  color: #10b981;
+  font-weight: 600;
+}
+
+/* VS Divider */
+.vs-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.vs-text {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  padding: 16px 20px;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 16px;
+  min-width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+/* Form Elements */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #ccc;
+  font-size: 14px;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.field-hint {
+  display: block;
+  margin-top: 4px;
+  color: #888;
+  font-size: 12px;
+}
+
+/* Scoring Section */
+.scoring-section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #333;
+}
+
+.scoring-section h5 {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+.total-score {
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid #f59e0b;
+  border-radius: 6px;
+  text-align: center;
+  color: #f59e0b;
+  font-size: 16px;
+}
+
+/* Battle Result Display */
+.battle-result-display {
+  background: #2a2a2a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.result-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.score-comparison {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.player-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+.player-name {
+  font-size: 14px;
+  color: #ccc;
+  font-weight: 500;
+}
+
+.score {
+  font-size: 20px;
+  font-weight: 700;
+  color: #10b981;
+}
+
+.vs-indicator {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 14px;
+  min-width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.automatic-result {
+  text-align: center;
+  padding: 16px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid #10b981;
+  border-radius: 6px;
+}
+
+.automatic-result strong {
+  display: block;
+  color: #10b981;
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.result-explanation {
+  display: block;
+  color: #888;
+  font-size: 12px;
+}
+
+/* Modal Footer */
+.modal-footer {
+  padding: 20px 24px;
+  border-top: 1px solid #333;
+  background: #1a1a1a;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: #333;
+  color: #fff;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #444;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .game-creation-modal {
+    width: 98%;
+    max-height: 98vh;
+  }
+
+  .players-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .vs-divider {
+    order: 2;
+    padding: 16px 0;
+  }
+
+  .vs-text {
+    transform: rotate(90deg);
+  }
+
+  .shared-config {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-header {
+    padding: 16px 20px;
+  }
+
+  .modal-body {
+    padding: 20px;
+  }
+
+  .player-config {
+    padding: 20px;
+  }
+
+  .score-comparison {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .vs-indicator {
+    transform: rotate(90deg);
+  }
+
+  .modal-footer {
+    padding: 16px 20px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+/* Scrollbar Styling */
+.game-creation-modal::-webkit-scrollbar {
+  width: 6px;
+}
+
+.game-creation-modal::-webkit-scrollbar-track {
+  background: #2a2a2a;
+}
+
+.game-creation-modal::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 3px;
+}
+
+.game-creation-modal::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
