@@ -1,6 +1,5 @@
 ﻿import { Component, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ScoreboardComponent } from '../../shared/scoreboard.component';
 import { GamesService } from '../../../services/games.service';
 import { WARHAMMER_ARMIES, Game, GameFormData } from '../../../models/player.models';
 import { GameDetailModalComponent } from '../../modals/game-detail-modal/game-detail-modal.component';
@@ -11,7 +10,6 @@ import { GameCreationModalComponent } from '../../modals/game-creation-modal/gam
   standalone: true,
   imports: [
     CommonModule,
-    ScoreboardComponent,
     GameDetailModalComponent,
     GameCreationModalComponent,
   ],
@@ -34,14 +32,6 @@ import { GameCreationModalComponent } from '../../modals/game-creation-modal/gam
         <div class="nav-tabs">
           <button
             class="nav-tab"
-            [class.active]="activeView === 'current'"
-            (click)="setActiveView('current')"
-          >
-            <span class="tab-icon">⚔️</span>
-            Current Battle
-          </button>
-          <button
-            class="nav-tab"
             [class.active]="activeView === 'history'"
             (click)="setActiveView('history')"
           >
@@ -57,11 +47,6 @@ import { GameCreationModalComponent } from '../../modals/game-creation-modal/gam
             Tournaments
           </button>
         </div>
-      </div>
-
-      <!-- Current Battle View -->
-      <div class="game-content" *ngIf="activeView === 'current'">
-        <app-scoreboard></app-scoreboard>
       </div>
 
       <!-- Battle History View -->
@@ -223,7 +208,7 @@ import { GameCreationModalComponent } from '../../modals/game-creation-modal/gam
   styleUrl: './games.component.css',
 })
 export class GamesComponent {
-  activeView: 'current' | 'history' | 'tournaments' = 'history';
+  activeView: 'history' | 'tournaments' = 'history';
 
   // Game Detail Modal state
   selectedGame: Game | null = null;
@@ -241,7 +226,7 @@ export class GamesComponent {
     }));
   });
 
-  setActiveView(view: 'current' | 'history' | 'tournaments') {
+  setActiveView(view: 'history' | 'tournaments') {
     this.activeView = view;
   }
 
