@@ -1,0 +1,26 @@
+﻿{
+  "version": 2,
+  "name": "wh40k-scoreboard",
+  "builds": [
+    {
+      "src": "dist/scoreboard/server/server.mjs",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "dist/scoreboard/browser/**/*",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot))",
+      "headers": { "cache-control": "public, max-age=31536000, immutable" },
+      "dest": "/dist/scoreboard/browser/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/dist/scoreboard/server/server.mjs"
+    }
+  ],
+  "outputDirectory": "dist/scoreboard"
+}
