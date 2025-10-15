@@ -9,18 +9,21 @@ A modern, responsive web application for tracking Warhammer 40,000 battle result
 ## 🏆 Features
 
 ### 📊 **Statistics & Rankings**
+
 - **Player Rankings**: Win rates, average points, game statistics
 - **Army Performance**: Track which armies perform best
 - **Player-Army Combinations**: Detailed performance analysis
 - **Season Management**: Organize battles into competitive seasons
 
 ### ⚔️ **Battle Management**
+
 - **Game Recording**: Track battles with detailed scoring
 - **Real-time Scoring**: Primary, secondary, and fully painted army points
 - **Battle History**: Complete game logs with searchable results
 - **Player vs Player**: Head-to-head statistics
 
 ### 🎨 **Modern Interface**
+
 - **Gothic WH40K Theme**: Dark, atmospheric design
 - **Responsive Design**: Works on desktop, tablet, and mobile
 - **Intuitive Navigation**: Easy-to-use tab-based interface
@@ -28,15 +31,17 @@ A modern, responsive web application for tracking Warhammer 40,000 battle result
 
 ## 🚀 **Live Demo**
 
-Visit the live application: **[wh40k-overland.ch](https://wh40k-overland.ch)** *(Coming Soon)*
+Visit the live application: **[wh40k-overland.ch](https://wh40k-overland.ch)** _(Coming Soon)_
 
 ## 🛠️ **Development**
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - Angular CLI 20+
 
 ### Setup
+
 ```bash
 # Clone the repository
 git clone https://github.com/Haki117/WH40K.git
@@ -50,6 +55,7 @@ npm start
 ```
 
 ### Build for Production
+
 ```bash
 # Build optimized version
 ng build --configuration=production
