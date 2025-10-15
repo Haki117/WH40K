@@ -1,6 +1,0 @@
-﻿{
-  "framework": "angular",
-  "buildCommand": "ng build",
-  "outputDirectory": "dist/scoreboard/browser",
-  "installCommand": "npm ci"
-}
