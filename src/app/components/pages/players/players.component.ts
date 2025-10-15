@@ -202,7 +202,7 @@ export class PlayersComponent {
 
   constructor(private playerService: PlayerService) {
     // Initialize the app and show JSON workflow notification
-    this.playerService.initializeApp();
+    // Player service initialized
 
     // Warn user before leaving with unsaved changes
     if (typeof window !== 'undefined') {

@@ -37,36 +37,27 @@ export type TabType = 'home' | 'players' | 'scoreboard' | 'games';
             <button
               class="tab-button"
               [class.active]="activeTab() === 'players'"
-              [class.has-content]="playerCount() > 0"
               (click)="setActiveTab('players')"
             >
-              <span class="tab-indicator" *ngIf="playerCount() > 0"></span>
               <span class="tab-icon">👥</span>
               Players
-              <span class="tab-badge" *ngIf="playerCount() > 0">{{ playerCount() }}</span>
             </button>
             <button
               class="tab-button"
               [class.active]="activeTab() === 'scoreboard'"
-              [class.has-new]="hasNewScores()"
               (click)="setActiveTab('scoreboard')"
               (contextmenu)="showContextMenu($event, 'scoreboard')"
             >
-              <span class="tab-indicator new" *ngIf="hasNewScores()"></span>
               <span class="tab-icon">🏆</span>
               Scoreboard
-              <span class="tab-badge new" *ngIf="hasNewScores()">!</span>
             </button>
             <button
               class="tab-button"
               [class.active]="activeTab() === 'games'"
-              [class.has-content]="activeGames() > 0"
               (click)="setActiveTab('games')"
             >
-              <span class="tab-indicator" *ngIf="activeGames() > 0"></span>
               <span class="tab-icon">⚔️</span>
               Games
-              <span class="tab-badge" *ngIf="activeGames() > 0">{{ activeGames() }}</span>
             </button>
           </nav>
 
@@ -125,11 +116,6 @@ export class AppShellComponent {
     this.saveTabState(tab);
   }
 
-  // Badge methods for tab indicators
-  playerCount = signal(0);
-  activeGames = signal(0);
-  newScores = signal(false);
-
   // Scroll detection for header hiding
   headerHidden = signal(false);
   lastScrollY = 0;
@@ -137,23 +123,13 @@ export class AppShellComponent {
   // Utility menu
   utilityMenuOpen = signal(false);
 
-  hasNewScores() {
-    return this.newScores();
-  }
-
   isHeaderHidden() {
     return this.headerHidden();
   }
 
   private platformId = inject(PLATFORM_ID);
 
-  // Mock data - in a real app, these would be connected to services
   constructor() {
-    // Simulate some initial data
-    this.playerCount.set(12);
-    this.activeGames.set(3);
-    this.newScores.set(true);
-
     // Browser-only functionality
     if (isPlatformBrowser(this.platformId)) {
       // Load saved tab state
@@ -241,11 +217,6 @@ export class AppShellComponent {
       const data = {
         timestamp: new Date().toISOString(),
         activeTab: this.activeTab(),
-        notifications: {
-          playerCount: this.playerCount(),
-          activeGames: this.activeGames(),
-          newScores: this.newScores(),
-        },
         // In a real app, this would include actual data from services
         version: '1.0.0',
       };
@@ -286,11 +257,7 @@ export class AppShellComponent {
             if (data.activeTab) {
               this.setActiveTab(data.activeTab);
             }
-            if (data.notifications) {
-              this.playerCount.set(data.notifications.playerCount || 0);
-              this.activeGames.set(data.notifications.activeGames || 0);
-              this.newScores.set(data.notifications.newScores || false);
-            }
+            // Imported data loaded successfully
 
             this.utilityMenuOpen.set(false);
             alert('Data imported successfully!');
@@ -311,9 +278,6 @@ export class AppShellComponent {
     if (confirmed) {
       // Reset to defaults
       this.activeTab.set('home');
-      this.playerCount.set(0);
-      this.activeGames.set(0);
-      this.newScores.set(false);
       this.headerHidden.set(false);
 
       // Clear localStorage
@@ -329,15 +293,7 @@ export class AppShellComponent {
 
   showContextMenu(event: MouseEvent, tab: string) {
     event.preventDefault();
-
-    // Simple context menu for demonstration
-    if (tab === 'scoreboard' && this.hasNewScores()) {
-      const confirmed = confirm('Mark scoreboard notifications as read?');
-      if (confirmed) {
-        this.newScores.set(false);
-        this.saveNotificationState();
-      }
-    }
+    // Context menu functionality can be implemented here if needed
   }
 
   // Tab State Persistence Methods
@@ -348,14 +304,7 @@ export class AppShellComponent {
         this.activeTab.set(savedTab);
       }
 
-      // Load notification states
-      const savedNotifications = localStorage.getItem('wh40k-club-notifications');
-      if (savedNotifications) {
-        const notifications = JSON.parse(savedNotifications);
-        this.newScores.set(notifications.newScores || false);
-        this.playerCount.set(notifications.playerCount || 0);
-        this.activeGames.set(notifications.activeGames || 0);
-      }
+      // Tab state loaded successfully
     } catch (error) {
       console.warn('Failed to load saved tab state:', error);
     }
@@ -366,19 +315,6 @@ export class AppShellComponent {
       localStorage.setItem('wh40k-club-active-tab', tab);
     } catch (error) {
       console.warn('Failed to save tab state:', error);
-    }
-  }
-
-  private saveNotificationState() {
-    try {
-      const notifications = {
-        newScores: this.newScores(),
-        playerCount: this.playerCount(),
-        activeGames: this.activeGames(),
-      };
-      localStorage.setItem('wh40k-club-notifications', JSON.stringify(notifications));
-    } catch (error) {
-      console.warn('Failed to save notification state:', error);
     }
   }
 }

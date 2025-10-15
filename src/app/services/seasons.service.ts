@@ -76,29 +76,7 @@ export class SeasonsService {
   }
 
   private initializeDefaultSeason(): void {
-    // Create a default season if none exists
-    if (this.seasons().length === 0) {
-      const defaultSeason: Season = {
-        id: this.generateId(),
-        name: 'Season 1',
-        startDate: new Date(),
-        endDate: null,
-        isActive: true,
-        description: 'The first competitive season of WH40K Club Thun',
-        gameIds: [],
-      };
-
-      this.seasonsSignal.set([defaultSeason]);
-
-      // Add all existing games to the current season
-      const allGames = this.gamesService.games();
-      if (allGames.length > 0) {
-        defaultSeason.gameIds = allGames.map((game) => game.id);
-        this.seasonsSignal.set([defaultSeason]);
-      }
-
-      this.saveSeasonsData();
-    }
+    // Start with empty seasons array - no default season created
   }
 
   createSeason(name: string, description?: string): Season {

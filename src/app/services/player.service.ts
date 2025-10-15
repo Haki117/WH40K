@@ -7,86 +7,11 @@ import { Player, PlayerStats } from '../models/player.models';
 })
 export class PlayerService {
   private platformId = inject(PLATFORM_ID);
-  private readonly FILE_NAME = 'wh40k-club-players.json';
-  private isDataLoaded = false;
-
   // Reactive signal for players data
   players = signal<Player[]>([]);
 
   constructor() {
-    this.initializeDefaultPlayers();
-  }
-
-  private initializeDefaultPlayers() {
-    const defaultPlayers: Player[] = [
-      {
-        id: 'romano-001',
-        name: 'Romano',
-        armies: ['Chaos Space Marines', 'Chaos Knights'],
-        stats: {
-          gamesPlayed: 23,
-          wins: 15,
-          losses: 8,
-          winRate: 65,
-          mostPlayedArmy: 'Chaos Space Marines',
-          rank: 1,
-        },
-        avatar: 'R',
-      },
-      {
-        id: 'burk-002',
-        name: 'Burk',
-        armies: ['Dark Angels', 'Tyranids'],
-        stats: {
-          gamesPlayed: 19,
-          wins: 12,
-          losses: 7,
-          winRate: 63,
-          mostPlayedArmy: 'Dark Angels',
-          rank: 2,
-        },
-        avatar: 'B',
-      },
-      {
-        id: 'doeni-003',
-        name: 'Döni',
-        armies: ['Aeldari', 'Drukhari'],
-        stats: {
-          gamesPlayed: 17,
-          wins: 10,
-          losses: 7,
-          winRate: 59,
-          mostPlayedArmy: 'Aeldari',
-          rank: 3,
-        },
-        avatar: 'D',
-      },
-    ];
-
-    this.players.set(defaultPlayers);
-  }
-
-  // Initialize app with notification about JSON workflow
-  initializeApp() {
-    if (!this.isDataLoaded && isPlatformBrowser(this.platformId)) {
-      this.isDataLoaded = true;
-
-      // Show info about JSON workflow
-      setTimeout(() => {
-        if (isPlatformBrowser(this.platformId)) {
-          const message = `📁 WH40K Club Thun now uses JSON files for data storage!
-
-Your player data is no longer automatically saved. To keep your data:
-• Use the "📤 Export" button to save your players to a JSON file
-• Use the "📥 Import" button to load your saved data
-
-Starting with default players (Romano, Burk, Döni).
-Remember to export your data before closing the browser!`;
-
-          alert(message);
-        }
-      }, 1000);
-    }
+    // Start with empty players array - no sample data
   }
 
   // Track if data has been modified since last save
