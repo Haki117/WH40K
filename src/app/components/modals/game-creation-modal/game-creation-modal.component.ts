@@ -5,6 +5,7 @@ import { GameFormData, Player } from '../../../models/player.models';
 import { PlayerService } from '../../../services/player.service';
 
 export interface GameCreationFormData {
+  battleDate: string;
   player1Id: string;
   player1Army: string;
   player1ArmyList: string;
@@ -45,6 +46,18 @@ export interface GameCreationFormData {
             </div>
 
             <div class="shared-config">
+              <div class="form-group">
+                <label for="battleDate">Battle Date & Time</label>
+                <input
+                  type="datetime-local"
+                  id="battleDate"
+                  class="form-input"
+                  [(ngModel)]="formData.battleDate"
+                  required
+                />
+                <small class="field-hint">When did this battle take place?</small>
+              </div>
+
               <div class="form-group">
                 <label for="deployment">Deployment</label>
                 <input
@@ -342,6 +355,7 @@ export class GameCreationModalComponent implements OnInit {
 
   // Form data
   formData: GameCreationFormData = {
+    battleDate: this.getCurrentDateTimeString(),
     player1Id: '',
     player1Army: '',
     player1ArmyList: '',
@@ -367,6 +381,16 @@ export class GameCreationModalComponent implements OnInit {
   ngOnInit(): void {
     // Initialize deployment and twists when modal opens
     this.syncSharedValues();
+  }
+
+  private getCurrentDateTimeString(): string {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
 
   // Computed properties
@@ -424,6 +448,7 @@ export class GameCreationModalComponent implements OnInit {
 
   isFormValid(): boolean {
     return !!(
+      this.formData.battleDate &&
       this.formData.player1Id &&
       this.formData.player1Army &&
       this.formData.player2Id &&
@@ -493,6 +518,7 @@ export class GameCreationModalComponent implements OnInit {
     const automaticWinner = this.getAutomaticWinner();
 
     const gameFormData: GameFormData = {
+      battleDate: new Date(this.formData.battleDate),
       player1Id: this.formData.player1Id,
       player1Army: this.formData.player1Army,
       player1ArmyList: this.formData.player1ArmyList,
@@ -519,6 +545,7 @@ export class GameCreationModalComponent implements OnInit {
 
   private resetForm(): void {
     this.formData = {
+      battleDate: this.getCurrentDateTimeString(),
       player1Id: '',
       player1Army: '',
       player1ArmyList: '',

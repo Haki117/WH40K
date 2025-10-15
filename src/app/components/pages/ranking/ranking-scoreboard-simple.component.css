@@ -1,0 +1,173 @@
+﻿/* Simple Scoreboard Styles */
+.scoreboard-container {
+  padding: 20px;
+  background: #1a1a1a;
+  color: #e8e8e8;
+  min-height: 100vh;
+}
+
+.tab-header {
+  text-align: center;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #b8941f;
+  padding-bottom: 15px;
+}
+
+.tab-title {
+  color: #b8941f;
+  font-size: 2rem;
+  margin: 0;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(184, 148, 31, 0.3);
+}
+
+.tab-subtitle {
+  color: #ccc;
+  margin: 5px 0 0 0;
+  font-style: italic;
+}
+
+.controls-section {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  align-items: end;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: rgba(40, 40, 40, 0.6);
+  border-radius: 8px;
+  border: 1px solid #555;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.control-group label {
+  color: #b8941f;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.control-select {
+  padding: 10px 15px;
+  background: #2a2a2a;
+  border: 2px solid #555;
+  border-radius: 5px;
+  color: #e8e8e8;
+  font-size: 1rem;
+  min-width: 180px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.control-select:hover {
+  border-color: #b8941f;
+  background: #333;
+}
+
+.control-select:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 2px rgba(184, 148, 31, 0.2);
+}
+
+.control-select option {
+  background: #2a2a2a;
+  color: #e8e8e8;
+  padding: 8px;
+}
+
+.stats-section {
+  background: rgba(40, 40, 40, 0.8);
+  border-radius: 8px;
+  padding: 20px;
+  border: 1px solid #444;
+}
+
+.section-title {
+  color: #b8941f;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.stats-table {
+  overflow-x: auto;
+}
+
+.ranking-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(20, 20, 20, 0.9);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.ranking-table th {
+  background: linear-gradient(135deg, #b8941f, #d4af37);
+  color: #000;
+  padding: 15px 12px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ranking-table td {
+  padding: 12px;
+  border-bottom: 1px solid #333;
+  vertical-align: middle;
+}
+
+.stats-row:hover {
+  background: rgba(184, 148, 31, 0.1);
+  cursor: pointer;
+}
+
+.stats-row:nth-child(even) {
+  background: rgba(30, 30, 30, 0.5);
+}
+
+.stats-row:nth-child(odd) {
+  background: rgba(40, 40, 40, 0.5);
+}
+
+.no-data {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  padding: 30px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .scoreboard-container {
+    padding: 10px;
+  }
+
+  .controls-section {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .control-select {
+    min-width: 150px;
+  }
+
+  .ranking-table th,
+  .ranking-table td {
+    padding: 8px 6px;
+    font-size: 0.8rem;
+  }
+
+  .tab-title {
+    font-size: 1.5rem;
+  }
+}

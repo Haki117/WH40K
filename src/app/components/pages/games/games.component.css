@@ -389,8 +389,8 @@
   margin: 0;
 }
 
-/* Tournaments */
-.tournaments-section {
+/* Seasons */
+.seasons-section {
   max-width: 1000px;
   margin: 0 auto;
 }
@@ -411,13 +411,13 @@
   margin: 0;
 }
 
-.tournament-list {
+.season-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 20px;
 }
 
-.tournament-card {
+.season-card {
   background: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
@@ -426,19 +426,20 @@
   transition: all 0.2s ease;
 }
 
-.tournament-card.upcoming {
+.season-card.active {
   border-left: 4px solid #6366f1;
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
 }
 
-.tournament-card.completed {
+.season-card.completed {
   border-left: 4px solid #10b981;
 }
 
-.tournament-card:hover {
+.season-card:hover {
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
-.tournament-header {
+.season-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -447,48 +448,116 @@
   gap: 12px;
 }
 
-.tournament-title {
+.season-title {
   font-size: 1.25rem;
   font-weight: 600;
   color: #111827;
   margin: 0;
 }
 
-.tournament-date {
+.season-duration {
   color: #6b7280;
   font-size: 0.875rem;
   font-weight: 500;
 }
 
-.tournament-info {
+.season-description {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border-left: 3px solid #6366f1;
+}
+
+.season-description p {
+  margin: 0;
+  color: #4b5563;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.season-stats {
   display: flex;
   flex-direction: column;
   gap: 8px;
   margin-bottom: 20px;
 }
 
-.tournament-detail {
+.stat-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.detail-label {
+.stat-label {
   font-size: 0.875rem;
   color: #6b7280;
   font-weight: 500;
 }
 
-.detail-value {
+.stat-value {
   font-size: 0.875rem;
   color: #111827;
-  font-weight: 500;
+  font-weight: 600;
 }
 
-.tournament-actions {
+.season-actions {
   display: flex;
   gap: 8px;
   justify-content: flex-end;
+}
+
+.section-subtitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 32px 0 16px 0;
+}
+
+.previous-seasons {
+  margin-top: 32px;
+}
+
+.empty-season-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6b7280;
+}
+
+.empty-season-state .empty-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.empty-season-state h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 8px 0;
+}
+
+.empty-season-state p {
+  font-size: 0.875rem;
+  margin: 0 0 24px 0;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-badge.active {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.status-badge.completed {
+  background: #d1fae5;
+  color: #065f46;
 }
 
 /* Buttons */
@@ -534,6 +603,17 @@
   border-color: #9ca3af;
 }
 
+.btn-danger {
+  background-color: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+}
+
+.btn-danger:hover {
+  background-color: #b91c1c;
+  border-color: #b91c1c;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .nav-tabs {
@@ -567,11 +647,11 @@
     align-items: flex-start;
   }
 
-  .tournament-list {
+  .season-list {
     grid-template-columns: 1fr;
   }
 
-  .tournament-actions {
+  .season-actions {
     justify-content: flex-start;
   }
 }
@@ -582,12 +662,12 @@
   }
 
   .battle-card,
-  .tournament-card {
+  .season-card {
     padding: 20px;
   }
 
   .battle-actions,
-  .tournament-actions {
+  .season-actions {
     flex-direction: column;
   }
 

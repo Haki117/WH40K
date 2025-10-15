@@ -47,6 +47,7 @@ export interface GamePlayer {
 }
 
 export interface GameFormData {
+  battleDate: Date;
   player1Id: string;
   player1Army: string;
   player1ArmyList?: string;
@@ -65,6 +66,30 @@ export interface GameFormData {
   player2SecondaryPoints: number;
   winner: 'player1' | 'player2' | 'draw';
   notes?: string;
+}
+
+export interface Season {
+  id: string;
+  name: string;
+  startDate: Date;
+  endDate: Date | null; // null if season is ongoing
+  isActive: boolean;
+  description?: string;
+  gameIds: string[]; // IDs of games that belong to this season
+}
+
+export interface SeasonStats {
+  seasonId: string;
+  playerId: string;
+  playerName: string;
+  gamesPlayed: number;
+  wins: number;
+  losses: number;
+  draws: number;
+  totalPoints: number;
+  averagePoints: number;
+  winRate: number;
+  rank: number;
 }
 
 export const WARHAMMER_ARMIES: Army[] = [

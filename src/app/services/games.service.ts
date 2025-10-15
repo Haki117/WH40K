@@ -1,4 +1,5 @@
-﻿import { Injectable, signal } from '@angular/core';
+﻿import { Injectable, signal, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Game, GameFormData, GamePlayer } from '../models/player.models';
 import { PlayerService } from './player.service';
 
@@ -6,13 +7,63 @@ import { PlayerService } from './player.service';
   providedIn: 'root',
 })
 export class GamesService {
+  private readonly STORAGE_KEY = 'wh40k-club-games';
   private gamesSignal = signal<Game[]>([]);
 
   // Public readonly signal
   games = this.gamesSignal.asReadonly();
 
-  constructor(private playerService: PlayerService) {
-    this.initializeWithSampleGames();
+  constructor(
+    private playerService: PlayerService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.loadGamesData();
+  }
+
+  // Load games data from localStorage
+  private loadGamesData(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    try {
+      const savedData = localStorage.getItem(this.STORAGE_KEY);
+      if (savedData) {
+        const games = JSON.parse(savedData) as Game[];
+        // Convert date strings back to Date objects
+        const gamesWithDates = games.map((game) => ({
+          ...game,
+          date: new Date(game.date),
+        }));
+        this.gamesSignal.set(gamesWithDates);
+        this.updatePlayerStats();
+      }
+      // Don't initialize sample games automatically
+    } catch (error) {
+      console.error('Error loading games data:', error);
+    }
+  }
+
+  // Save games data to localStorage
+  private saveGamesData(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    try {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.games()));
+    } catch (error) {
+      console.error('Error saving games data:', error);
+    }
+  }
+
+  // Clear all games data and start fresh
+  clearAllGames(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem(this.STORAGE_KEY);
+    }
+    this.gamesSignal.set([]);
+    this.updatePlayerStats();
   }
 
   private initializeWithSampleGames() {
@@ -180,9 +231,10 @@ export class GamesService {
 
     this.gamesSignal.set(sampleGames);
     this.updatePlayerStats();
+    this.saveGamesData();
   }
 
-  addGame(gameData: GameFormData): void {
+  addGame(gameData: GameFormData): Game {
     const player1 = this.playerService.getPlayerById(gameData.player1Id);
     const player2 = this.playerService.getPlayerById(gameData.player2Id);
 
@@ -202,7 +254,7 @@ export class GamesService {
 
     const game: Game = {
       id: this.generateId(),
-      date: new Date(),
+      date: gameData.battleDate,
       player1: {
         playerId: gameData.player1Id,
         playerName: player1.name,
@@ -238,6 +290,9 @@ export class GamesService {
     const currentGames = this.gamesSignal();
     this.gamesSignal.set([game, ...currentGames]);
     this.updatePlayerStats();
+    this.saveGamesData();
+
+    return game;
   }
 
   getGameById(id: string): Game | undefined {

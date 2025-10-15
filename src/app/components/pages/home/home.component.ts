@@ -37,7 +37,9 @@ export type TabType = 'home' | 'players' | 'scoreboard' | 'games';
             <div class="feature-card" (click)="navigateToTab('games')">
               <div class="feature-icon">⚔️</div>
               <h3 class="feature-title">Games</h3>
-              <p class="feature-description">Create and manage battle sessions and tournaments</p>
+              <p class="feature-description">
+                Create and manage battle sessions and competitive seasons
+              </p>
             </div>
           </div>
         </div>

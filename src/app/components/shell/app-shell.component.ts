@@ -108,7 +108,7 @@ export type TabType = 'home' | 'players' | 'scoreboard' | 'games';
         <app-players *ngIf="activeTab() === 'players'"></app-players>
 
         <!-- Scoreboard Component -->
-        <app-scoreboard *ngIf="activeTab() === 'scoreboard'"></app-scoreboard>
+        <app-ranking-scoreboard *ngIf="activeTab() === 'scoreboard'"></app-ranking-scoreboard>
 
         <!-- Games Component -->
         <app-games *ngIf="activeTab() === 'games'"></app-games>
