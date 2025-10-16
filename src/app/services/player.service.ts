@@ -1,23 +1,104 @@
 ﻿import { Injectable, signal, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Player, PlayerStats } from '../models/player.models';
+import { SharedStorageService } from './shared-storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlayerService {
+  private readonly STORAGE_KEY = 'wh40k-club-players';
   private platformId = inject(PLATFORM_ID);
+  private sharedStorage = inject(SharedStorageService);
+  
   // Reactive signal for players data
   players = signal<Player[]>([]);
 
   constructor() {
     // Start with empty players array - no sample data
+    this.loadPlayersData();
   }
 
   // Track if data has been modified since last save
   private dataModified = false;
 
-  // Mark data as modified (no automatic save)
+  // Load players data from cloud storage with localStorage fallback
+  private loadPlayersData(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    // First try to load from cloud storage
+    this.sharedStorage.loadSharedData().subscribe({
+      next: (cloudData) => {
+        if (cloudData && cloudData.players) {
+          this.players.set(cloudData.players);
+          // Also save to localStorage as backup
+          this.saveToLocalStorage(cloudData.players);
+        } else {
+          // Fallback to localStorage
+          this.loadFromLocalStorage();
+        }
+      },
+      error: () => {
+        // Fallback to localStorage if cloud fails
+        this.loadFromLocalStorage();
+      }
+    });
+  }
+
+  // Load from localStorage (fallback)
+  private loadFromLocalStorage(): void {
+    try {
+      const savedData = localStorage.getItem(this.STORAGE_KEY);
+      if (savedData) {
+        const players = JSON.parse(savedData) as Player[];
+        this.players.set(players);
+      }
+    } catch (error) {
+      console.error('Error loading players from localStorage:', error);
+    }
+  }
+
+  // Save to localStorage (backup)
+  private saveToLocalStorage(players: Player[]): void {
+    try {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(players));
+    } catch (error) {
+      console.error('Error saving players to localStorage:', error);
+    }
+  }
+
+  // Save players data to cloud storage
+  private savePlayersData(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    const playersData = this.players();
+    
+    // Save to cloud storage
+    this.sharedStorage.saveSharedData('players', playersData).subscribe({
+      next: (success) => {
+        if (success) {
+          this.markDataSaved();
+          // Also save to localStorage as backup
+          this.saveToLocalStorage(playersData);
+        } else {
+          console.error('Failed to save players to cloud storage');
+          // Still save to localStorage
+          this.saveToLocalStorage(playersData);
+        }
+      },
+      error: (error) => {
+        console.error('Error saving players to cloud:', error);
+        // Fallback to localStorage
+        this.saveToLocalStorage(playersData);
+      }
+    });
+  }
+
+  // Mark data as modified and save automatically
   private markDataModified() {
     this.dataModified = true;
 
@@ -25,6 +106,9 @@ export class PlayerService {
     if (isPlatformBrowser(this.platformId)) {
       document.title = '* WH40K Club Thun (Unsaved Changes)';
     }
+
+    // Automatically save to localStorage
+    this.savePlayersData();
   }
 
   // Mark data as saved
@@ -79,6 +163,15 @@ export class PlayerService {
     const filteredPlayers = this.players().filter((p) => p.id !== playerId);
     this.players.set(filteredPlayers);
     this.markDataModified();
+  }
+
+  // Clear all players data
+  clearAllPlayers(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem(this.STORAGE_KEY);
+    }
+    this.players.set([]);
+    this.markDataSaved();
   }
 
   updatePlayerStats(playerId: string, gameResult: 'win' | 'loss', army: string) {
@@ -188,7 +281,7 @@ export class PlayerService {
       }
 
       this.players.set(parsedData);
-      this.markDataSaved(); // Importing counts as saving
+      this.markDataModified(); // This will trigger automatic save
 
       return { success: true, message: `Successfully imported ${parsedData.length} players` };
     } catch (error) {

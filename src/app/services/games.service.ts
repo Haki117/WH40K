@@ -2,6 +2,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Game, GameFormData, GamePlayer } from '../models/player.models';
 import { PlayerService } from './player.service';
+import { SharedStorageService } from './shared-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,17 +16,45 @@ export class GamesService {
 
   constructor(
     private playerService: PlayerService,
+    private sharedStorage: SharedStorageService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.loadGamesData();
   }
 
-  // Load games data from localStorage
+  // Load games data from cloud storage with localStorage fallback
   private loadGamesData(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
 
+    // First try to load from cloud storage
+    this.sharedStorage.loadSharedData().subscribe({
+      next: (cloudData) => {
+        if (cloudData && cloudData.games) {
+          // Convert date strings back to Date objects
+          const gamesWithDates = cloudData.games.map((game: any) => ({
+            ...game,
+            date: new Date(game.date),
+          }));
+          this.gamesSignal.set(gamesWithDates);
+          this.updatePlayerStats();
+          // Also save to localStorage as backup
+          this.saveToLocalStorage(gamesWithDates);
+        } else {
+          // Fallback to localStorage
+          this.loadFromLocalStorage();
+        }
+      },
+      error: () => {
+        // Fallback to localStorage if cloud fails
+        this.loadFromLocalStorage();
+      }
+    });
+  }
+
+  // Load from localStorage (fallback)
+  private loadFromLocalStorage(): void {
     try {
       const savedData = localStorage.getItem(this.STORAGE_KEY);
       if (savedData) {
@@ -38,23 +67,46 @@ export class GamesService {
         this.gamesSignal.set(gamesWithDates);
         this.updatePlayerStats();
       }
-      // Don't initialize sample games automatically
     } catch (error) {
-      console.error('Error loading games data:', error);
+      console.error('Error loading games from localStorage:', error);
     }
   }
 
-  // Save games data to localStorage
+  // Save to localStorage (backup)
+  private saveToLocalStorage(games: Game[]): void {
+    try {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(games));
+    } catch (error) {
+      console.error('Error saving games to localStorage:', error);
+    }
+  }
+
+  // Save games data to cloud storage
   private saveGamesData(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
 
-    try {
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.games()));
-    } catch (error) {
-      console.error('Error saving games data:', error);
-    }
+    const gamesData = this.games();
+    
+    // Save to cloud storage
+    this.sharedStorage.saveSharedData('games', gamesData).subscribe({
+      next: (success) => {
+        if (success) {
+          // Also save to localStorage as backup
+          this.saveToLocalStorage(gamesData);
+        } else {
+          console.error('Failed to save games to cloud storage');
+          // Still save to localStorage
+          this.saveToLocalStorage(gamesData);
+        }
+      },
+      error: (error) => {
+        console.error('Error saving games to cloud:', error);
+        // Fallback to localStorage
+        this.saveToLocalStorage(gamesData);
+      }
+    });
   }
 
   // Clear all games data and start fresh

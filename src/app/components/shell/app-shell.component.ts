@@ -4,6 +4,7 @@ import { HomeComponent } from '../pages/home/home.component';
 import { PlayersComponent } from '../pages/players/players.component';
 import { RankingScoreboardComponent } from '../pages/ranking/ranking-scoreboard.component';
 import { GamesComponent } from '../pages/games/games.component';
+import { StorageToggleComponent } from '../shared/storage-toggle.component';
 
 export type TabType = 'home' | 'players' | 'scoreboard' | 'games';
 
@@ -16,6 +17,7 @@ export type TabType = 'home' | 'players' | 'scoreboard' | 'games';
     PlayersComponent,
     RankingScoreboardComponent,
     GamesComponent,
+    StorageToggleComponent,
   ],
   template: `
     <div class="app-shell">
@@ -81,6 +83,9 @@ export type TabType = 'home' | 'players' | 'scoreboard' | 'games';
               </button>
             </div>
           </div>
+
+          <!-- Storage Toggle -->
+          <app-storage-toggle></app-storage-toggle>
 
           <!-- Home Button (when not on home) -->
           <button class="home-button" *ngIf="activeTab() !== 'home'" (click)="setActiveTab('home')">
