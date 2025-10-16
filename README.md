@@ -1,6 +1,6 @@
 # WH40K Club Thun Scoreboard
 
-A modern, responsive web application for tracking Warhammer 40,000 battle results and player statistics.
+A modern, responsive web application for tracking Warhammer 40,000 battle results and player statistics with **shared cloud storage**.
 
 ![WH40K Gothic Theme](https://img.shields.io/badge/Theme-WH40K%20Gothic-gold)
 ![Angular](https://img.shields.io/badge/Angular-20.1.0-red)
